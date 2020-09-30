@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/actionTypes"
 const initialState = {
 	repos: [],
 	language: "All",
-	firstFetch: true,
+	refetch: true,
 }
 
 const popularReducer = (state = initialState, action) => {
@@ -12,7 +12,7 @@ const popularReducer = (state = initialState, action) => {
 			return {
 				...state,
 				repos: action.payload.repos,
-				firstFetch: false,
+				refetch: false,
 			}
 		case actionTypes.NO_REFETCH_NEEDED:
 			return state
@@ -20,7 +20,7 @@ const popularReducer = (state = initialState, action) => {
 			return {
 				...state,
 				language: action.payload.language,
-				firstFetch: true,
+				refetch: true,
 			}
 		default:
 			return state

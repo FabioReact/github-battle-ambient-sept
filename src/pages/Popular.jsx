@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import SelectLanguage from '../components/SelectLanguage'
 import { connect } from "react-redux"
-import { fetchRepos, storeRepos, updateLanguage } from '../store/actions/actionCreators'
+import { fetchRepos, updateLanguage } from '../store/actions/actionCreators'
 
 const Popular = ({repos, language, fetchRepos, updateLanguage}) => {
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
-		// const fetchData = async () => {
-		// 	const res = await fetchPopularRepos()
-		// 	storeRepos(res)
-		// 	setLoading(false)
-		// }
-		// fetchData()
-		fetchRepos(language)
-		setLoading(false)
-	}, [language])
+		if (!loading) setLoading(true)
+		const fetchData = async () => {
+			await fetchRepos(language)
+			setLoading(false)
+		}
+		fetchData()
+		// eslint-disable-next-line
+	}, [language, fetchRepos])
 
 	return (
 		<>
 			<h1>
 				Page Popular
 			</h1>
+			<p>Selected: {language} </p>
 			<SelectLanguage selected={language} onChange={updateLanguage} />
 			{loading ? <div>Fetching Repos...</div> : <ul>
 				{repos.map(repo => <li key={repo.id}>
@@ -42,7 +42,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchRepos: (language) => dispatch(fetchRepos(language)),
+		fetchRepos: language => dispatch(fetchRepos(language)),
 		updateLanguage: language => dispatch(updateLanguage(language))
 	}
 }

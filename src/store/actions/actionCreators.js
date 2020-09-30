@@ -40,21 +40,28 @@ const noRefetchNeeded = () => {
 }
 
 export const updateLanguage = lang => {
-	return {
-		type: actionTypes.UPDATE_LANGUAGE,
-		payload: {
-			language: lang
-		}
+	return async dispatch => {
+		// const res = await fetchPopularRepos(lang)
+		dispatch({
+			type: actionTypes.UPDATE_LANGUAGE,
+			payload: {
+				language: lang,
+				// repos: res
+			}
+		})
 	}
 }
 
 export const fetchRepos = (language) => {
 	return async (dispatch, getState) => {
 		const state = getState()
-		if (state.popular.firstFetch) {
-			const res = await fetchPopularRepos()
+		// console.log(state.popular.language, language)
+		// console.log(state.popular.repos.length)
+		if (state.popular.refetch) {
+			const res = await fetchPopularRepos(language)
 			dispatch(storeRepos(res))
+		} else {
+			dispatch(noRefetchNeeded())
 		}
-		dispatch(noRefetchNeeded())
 	}
 }

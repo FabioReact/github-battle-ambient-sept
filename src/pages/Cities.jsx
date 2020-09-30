@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
-import { addCity, asyncAddCity, removeCity } from "../store/actions/actionCreators"
+import { asyncAddCity, removeCity } from "../store/actions/actionCreators"
 
 const Cities = ({addCity, removeCity, cities}) => {
 	const [inputCity, setInputCity] = useState("")
@@ -30,7 +30,7 @@ const Cities = ({addCity, removeCity, cities}) => {
 				<aside>
 					<ul>
 						{cities.map((c, i) => (
-							<li key={i}>{c} - <span role="img" style={{cursor: "pointer"}} onClick={() => onDeleteCity(c)}>❌</span></li>
+							<li key={i}>{c} - <span role="img" aria-label="delete" style={{cursor: "pointer"}} onClick={() => onDeleteCity(c)}>❌</span></li>
 						))}
 					</ul>
 				</aside>
